@@ -14,7 +14,7 @@ spring:
         jdbc:
           time_zone: UTC
       jdbc:
-        batch_size: 100
+        batch_size: 99
       order_inserts: true
       order_updates: true
   datasource:
