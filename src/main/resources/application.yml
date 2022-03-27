@@ -1,0 +1,28 @@
+server:
+  port: 8088
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    database: postgresql
+    properties:
+      hibernate:
+        generate_statistics: false
+        jdbc:
+          time_zone: UTC
+      jdbc:
+        batch_size: 100
+      order_inserts: true
+      order_updates: true
+  datasource:
+    url: jdbc:postgresql://localhost:5435/postgres
+    password: password
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog.xml
+    default-schema: public
+    liquibase-schema: public

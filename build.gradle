@@ -1,0 +1,92 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "io.freefair.lombok" version "6.4.1"
+
+	// Check code style described in checkstyle.xml
+	id "checkstyle"
+	// Perform quality checks on your project's java source file
+	id "pmd"
+	// Show test coverage
+	id "jacoco"
+	// Provide an ability to perform a mutation testing
+	id "info.solidsoft.pitest" version "1.7.4"
+	// Check byte code to find bug
+	id "com.github.spotbugs" version "5.0.6"
+}
+
+group 'com.example.template.controller'
+
+apply from: './versions.gradle'
+
+springBoot {
+	buildInfo()
+}
+
+pitest {
+	//adds dependency to org.pitest:pitest-junit5-plugin and sets "testPlugin" to "junit5"
+	junit5PluginVersion = '0.15'
+}
+
+pmd {
+	toolVersion = '6.15.0'
+	ruleSetFiles = files("config/pmd/rules.xml")
+}
+
+jacoco {
+	toolVersion = '0.8.4'
+}
+
+checkstyle {
+
+	checkstyleMain {
+		showViolations = true
+		ignoreFailures = false
+		maxWarnings = 0
+	}
+
+	checkstyleTest {
+		showViolations = true
+		ignoreFailures = true
+	}
+}
+
+spotbugsMain {
+	reports {
+		html {
+			required = true
+			outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation "org.springdoc:springdoc-openapi-ui:${versions.springDoc}"
+
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.postgresql:postgresql'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.testcontainers:postgresql:${versions.testContainer}"
+	testImplementation "org.testcontainers:junit-jupiter:${versions.testContainer}"
+	testImplementation 'org.mockito:mockito-junit-jupiter'
+	testImplementation 'org.mockito:mockito-core'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
