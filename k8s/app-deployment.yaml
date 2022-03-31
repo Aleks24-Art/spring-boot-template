@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-template
-          image: artemiy2410/spring-boot-template:1.0.0
+          image: <your Docker Hub account>/spring-boot-template:1.0.0
           env:
             - name: DB_USERNAME
               valueFrom:
