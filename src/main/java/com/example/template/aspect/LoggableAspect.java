@@ -22,6 +22,9 @@ public class LoggableAspect {
     public void executeLogging() {
     }
 
+    /**
+     * Будет выполнено до начала метода
+     */
     @Before("executeLogging()")
     public void logMethodCall(JoinPoint joinPoint) {
         StringBuilder message = new StringBuilder("Method: ");
@@ -33,6 +36,9 @@ public class LoggableAspect {
         log.info(message.toString());
     }
 
+    /**
+     * Будет выполнено после возврата методом значения
+     */
     @AfterReturning(pointcut = "executeLogging()", returning = "returnValue")
     public void logMethodCall(JoinPoint joinPoint, Object returnValue) {
         StringBuilder message = new StringBuilder("Method: ");
@@ -42,6 +48,9 @@ public class LoggableAspect {
         log.info(message.toString());
     }
 
+    /**
+     * Будет выполнено в процессе выполнения метода. Замер времени выполнения
+     */
     @SneakyThrows
     @Around("executeLogging()")
     public Object logMethodCall(ProceedingJoinPoint joinPoint) {
