@@ -1,5 +1,6 @@
 package com.example.template.controller;
 
+import com.example.template.aspect.Loggable;
 import com.example.template.dto.TestDto;
 import com.example.template.entity.TestEntity;
 import com.example.template.repository.TestRepository;
@@ -27,12 +28,14 @@ public class TestController {
         return "Service working...";
     }
 
+    @Loggable
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public TestEntity saveTestEntity(@RequestBody TestDto dto) {
         return testRepository.save(new TestEntity(UUID.randomUUID(), dto.getName()));
     }
 
+    @Loggable
     @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
     public List<TestEntity> getAllTestEntities() {
